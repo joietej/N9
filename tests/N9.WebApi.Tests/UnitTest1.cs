@@ -1,4 +1,4 @@
-﻿namespace N9.Api.Tests;
+﻿namespace N9.WebApi.Tests;
 
 public class UnitTest1
 {

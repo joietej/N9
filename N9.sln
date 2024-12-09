@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N9.Services", "src\N9.Servi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N9.Services.Tests", "tests\N9.Services.Tests\N9.Services.Tests.csproj", "{88CE7FAB-3957-4DB8-8968-57AB94E47E22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N9.Api.Tests", "tests\N9.Api.Tests\N9.Api.Tests.csproj", "{1EF8A996-E806-48A6-A324-89960257D2AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N9.WebApi.Tests", "tests\N9.WebApi.Tests\N9.WebApi.Tests.csproj", "{1EF8A996-E806-48A6-A324-89960257D2AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
