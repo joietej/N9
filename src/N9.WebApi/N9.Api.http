@@ -1,0 +1,12 @@
+POST https://login.microsoftonline.com/{{Tenant_Id}}/oauth2/v2.0/token
+
+client_id={{Client_Id}}
+&client_secret={{Client_Secret}}
+&grant_type=client_credentials
+&scope={{Scope}}
+
+####
+GET https://n9-api.azurewebsites.net/api/books
+Accept: application/json
+Authorization: Bearer 
+####
