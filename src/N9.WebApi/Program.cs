@@ -100,8 +100,6 @@ app.MapGraphQL();
 app.MapHealthChecks("/healthz");
 
 // Map routes
-app.MapGet("/secret", () => app.Configuration["secret"]);
-
 app.MapBooksApi();
 
 // Initialize Db with migrations and seed data
