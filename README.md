@@ -1,8 +1,8 @@
-﻿# DotNet9WebApiSample
+﻿# N9
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-**DotNet9WebApiSample** is a .NET 9 Minimal Web API application emphasizing scalability, resilience, and security.
+**N9** is a .NET 9 Minimal Web API application emphasizing scalability, resilience, and security.
 
 ## 📖 Overview
 
