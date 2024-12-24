@@ -1,4 +1,5 @@
 ﻿using N9.Services;
+using N9.WebApi.Services;
 
 namespace N9.WebApi.Apis;
 
@@ -8,7 +9,7 @@ public static class BooksApi
     {
         var group = routes.MapGroup("/api/books");
 
-        group.MapGet("/", async (IBooksService booksService) => await booksService.GetBooksAsync())
+        group.MapGet("/", async (IBooksApiService booksService) => await booksService.GetBooksAsync())
             .WithOpenApi()
             .WithName("GetBooks")
             .WithDescription("Get all books");
