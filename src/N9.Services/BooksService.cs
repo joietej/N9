@@ -1,4 +1,5 @@
-﻿using N9.Data.Repositories;
+﻿using N9.Data.Entities;
+using N9.Data.Repositories;
 using N9.Services.Mappings;
 using N9.Services.Models;
 
@@ -13,4 +14,6 @@ public class BooksService(IBookRepository repository) : IBooksService
             .Select(b => b.ToModel())
             .ToList();
     }
+
+    public IQueryable<Book> GetBooksQuery(string? include = null) => repository.Query(include);
 }

@@ -8,21 +8,22 @@ using N9.WebApi.Extensions;
 using N9.WebApi.GraphQL;
 using N9.Data.Context;
 using N9.Data.Init;
+using N9.WebApi.GraphQL.Queries;
 using Polly;
 using Polly.Retry;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.ConfigureOpenTelemetry();
+// Add Http logging
+builder.Services.AddHttpLogging(options => { options.LoggingFields = HttpLoggingFields.All; }); 
+builder.Services.AddProblemDetails();
+
 // Add services to the container.
 builder.AddConfig();
 
 builder.Services.AddHealthChecks();
-
-builder.Services.AddProblemDetails();
-
-// Add Http logging
-builder.Services.AddHttpLogging(options => { options.LoggingFields = HttpLoggingFields.All; });
 
 // Add Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -59,35 +60,25 @@ if (builder.Environment.IsProduction())
         new Uri($"https://{builder.Configuration["KeyVaultName"]}.vault.azure.net/"),
         new DefaultAzureCredential());
 
-builder.Services
-    .AddDbContext<BooksDbContext>(options =>
-        options
-            .UseSqlServer(builder.Configuration.GetConnectionString("Sql"), p => { p.EnableRetryOnFailure(); })
-            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+builder.AddDbContextWithSqlConnection<BooksDbContext>();
 
 builder.Services.AddGraphQLServer()
-    .AddQueryType<Query>()
+    .AddQueryType<BookQuery>()
+    .AddProjections()
     .AddFiltering()
-    .AddSorting();
+    .AddSorting()
+    .InitializeOnStartup();
 
 var app = builder.Build();
 
 // Error handling
-app.UseStatusCodePages(async statusCodeContext
-    => await Results.Problem(statusCode: statusCodeContext.HttpContext.Response.StatusCode)
-        .ExecuteAsync(statusCodeContext.HttpContext));
+app.UseExceptionHandling();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
     app.MapOpenApi();
     app.MapScalarApiReference(options => { options.WithEndpointPrefix("/api-docs/{documentName}"); });
 }
-else
-{
-    app.UseExceptionHandler(a => { a.Run(async ctx => await Results.Problem().ExecuteAsync(ctx)); });
-}
-
 
 app.UseHttpLogging();
 app.UseHttpsRedirection();
@@ -95,7 +86,7 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGraphQL();
+app.MapGraphQL().RequireAuthorization();
 
 app.MapHealthChecks("/healthz");
 

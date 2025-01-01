@@ -77,4 +77,9 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class, IEntity
     {
         return await _dbSet.Where(predicate).ToListAsync(cancellationToken);
     }
+
+    public IQueryable<T> Query(string? property = null) =>
+        property != null
+            ? _dbSet.Include(property).AsQueryable()
+            : _dbSet.AsQueryable();
 }

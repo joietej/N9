@@ -63,4 +63,11 @@ public interface IRepositoryBase<T> where T : class, IEntity
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A collection of matching entities.</returns>
     Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///   Gets queryable for the entity.
+    /// </summary>
+    /// <param name="property">A navigation property path.</param>
+    /// <returns>A queryable of the entity.</returns>
+    IQueryable<T> Query(string? property = null);
 }
