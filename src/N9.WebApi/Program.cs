@@ -1,4 +1,5 @@
 using Azure.Identity;
+using HotChocolate.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
@@ -86,7 +87,8 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGraphQL().RequireAuthorization();
+app.MapGraphQLHttp().RequireAuthorization();
+app.MapNitroApp("/graphql/ui");
 
 app.MapHealthChecks("/healthz");
 
